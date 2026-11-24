@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 export { gsap, ScrollTrigger };
 
-export const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+export const reduced = () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(hover: hover)').matches;
 
 /** Scope a GSAP context to a ref and clean up. */
 export function useGsap(fn: (self: gsap.Context) => void, deps: any[] = []) {

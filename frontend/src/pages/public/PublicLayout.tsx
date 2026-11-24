@@ -19,6 +19,9 @@ export default function PublicLayout() {
   const cta = useMagnetic<HTMLAnchorElement>(0.25);
   useLayoutFx(header, bar, main);
 
+  // public site is always light: the parent app's dark theme must not leak in
+  useLayoutEffect(() => { const r = document.documentElement; r.classList.add('public'); const cs = r.style.colorScheme; r.style.colorScheme = 'light'; return () => { r.classList.remove('public'); r.style.colorScheme = cs; }; }, []);
+
   useEffect(() => { const f = () => setScrolled(window.scrollY > 12); f(); window.addEventListener('scroll', f, { passive: true }); return () => window.removeEventListener('scroll', f); }, []);
 
   // route change: close menu, scroll to top (or to #hash), fade the new page in

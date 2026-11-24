@@ -82,7 +82,8 @@ h1, h2, h3, h4, .font-display { font-family: "Plus Jakarta Sans", system-ui, san
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
 
-@media (prefers-reduced-motion: reduce) {
+/* honoured on desktop only: Android battery-saver / "remove animations" also sets this flag on phones and silently kills every animation */
+@media (prefers-reduced-motion: reduce) and (hover: hover) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }
 
@@ -97,16 +98,16 @@ button, a, [role=button], input, select, textarea { touch-action: manipulation; 
 /* Android "remove animations" reaches the WebView as reduced motion; already handled above */
 
 /* dark mode (parent app) */
-html.dark { --mist: #0b1624; --ink: #e8f1f9; color-scheme: dark; }
-html.dark body { background: #0b1624; color: #e8f1f9; }
-html.dark .card, html.dark .card-pad { background: #13253a; border-color: rgba(255,255,255,.08); }
-html.dark .bg-white { background-color: #13253a; }
-html.dark .bg-mist, html.dark .bg-sky-soft { background-color: #0b1624; }
-html.dark .text-navy { color: #8ec5f5; }
-html.dark .text-ink, html.dark .text-ink\/80, html.dark .text-ink\/70 { color: #dbe8f3; }
-html.dark .input { background: #0f1f31; color: #e8f1f9; border-color: rgba(255,255,255,.15); }
-html.dark .btn-ghost { background: #13253a; color: #8ec5f5; }
-html.dark .border-navy\/10 { border-color: rgba(255,255,255,.1); }
+html.dark:not(.public) { --mist: #0b1624; --ink: #e8f1f9; color-scheme: dark; }
+html.dark:not(.public) body { background: #0b1624; color: #e8f1f9; }
+html.dark:not(.public) .card, html.dark:not(.public) .card-pad { background: #13253a; border-color: rgba(255,255,255,.08); }
+html.dark:not(.public) .bg-white { background-color: #13253a; }
+html.dark:not(.public) .bg-mist, html.dark:not(.public) .bg-sky-soft { background-color: #0b1624; }
+html.dark:not(.public) .text-navy { color: #8ec5f5; }
+html.dark:not(.public) .text-ink, html.dark:not(.public) .text-ink\/80, html.dark:not(.public) .text-ink\/70 { color: #dbe8f3; }
+html.dark:not(.public) .input { background: #0f1f31; color: #e8f1f9; border-color: rgba(255,255,255,.15); }
+html.dark:not(.public) .btn-ghost { background: #13253a; color: #8ec5f5; }
+html.dark:not(.public) .border-navy\/10 { border-color: rgba(255,255,255,.1); }
 
 /* public site: gentle bead motion (transform only) */
 .kg-bead { transform-box: fill-box; }
