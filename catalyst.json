@@ -1,0 +1,8 @@
+{
+  "appsail": [
+    {
+      "source": "docker://krishna-gurukul:latest",
+      "name": "krishna-gurukul"
+    }
+  ]
+}
