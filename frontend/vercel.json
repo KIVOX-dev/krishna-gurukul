@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://krishna-gurukul-api.vercel.app/api/$1" },
+    { "source": "/api/(.*)", "destination": "https://krishna-gurukul-api-50048010767.development.catalystappsail.in/api/$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

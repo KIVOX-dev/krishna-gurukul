@@ -1,0 +1,15 @@
+# Backend API image (for Catalyst AppSail or any Docker host). Build from the repo root:
+#   docker build --platform linux/amd64 -f Dockerfile.backend -t <user>/krishna-gurukul-api:1.0 .
+FROM node:20-slim
+WORKDIR /app
+COPY package.json package-lock.json ./
+COPY shared/package.json shared/
+COPY backend/package.json backend/
+COPY frontend/package.json frontend/
+RUN npm ci -w backend --include-workspace-root=false
+COPY shared shared
+COPY backend backend
+ENV NODE_ENV=production
+EXPOSE 9000
+WORKDIR /app/backend
+CMD ["npx", "tsx", "src/server.ts"]

@@ -3,7 +3,7 @@ import { connectDb, usingEmbedded } from './config/db';
 import { User } from './models';
 import { seed } from './scripts/seed';
 
-const port = Number(process.env.PORT ?? 4000);
+const port = Number(process.env.X_ZOHO_CATALYST_LISTEN_PORT ?? process.env.PORT ?? 4000); // Catalyst AppSail sets X_ZOHO_CATALYST_LISTEN_PORT
 
 (async () => {
   await connectDb();

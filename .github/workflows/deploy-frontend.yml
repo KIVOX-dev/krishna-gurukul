@@ -1,0 +1,54 @@
+name: Frontend (check, then deploy to Vercel)
+
+on:
+  push:
+    branches: [main]
+    paths: ['frontend/**', 'shared/**', 'package.json', 'package-lock.json', '.github/workflows/deploy-frontend.yml']
+  pull_request:
+    paths: ['frontend/**', 'shared/**']
+  workflow_dispatch:
+
+concurrency:
+  group: frontend-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Typecheck and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm }
+      - run: npm ci -w frontend -w shared --include-workspace-root=false
+      - run: npm run typecheck -w frontend
+      - run: npm run build -w frontend
+
+  deploy:
+    name: Deploy to Vercel (production)
+    needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+      - name: Pull Vercel settings and environment variables
+        run: vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+      - name: Build
+        run: vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+      - name: Deploy
+        id: deploy
+        run: echo "url=$(vercel deploy --prebuilt --prod --token='${{ secrets.VERCEL_TOKEN }}')" >> "$GITHUB_OUTPUT"
+      - name: Smoke test
+        run: |
+          for i in 1 2 3 4 5; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.WEB_URL }}" || true)
+            echo "attempt $i: $code"; [ "$code" = "200" ] && exit 0; sleep 15
+          done
+          echo "Site did not return 200"; exit 1
