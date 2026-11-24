@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /faculty
+Disallow: /parent
+Sitemap: https://www.krishnagurukul.in/sitemap.xml

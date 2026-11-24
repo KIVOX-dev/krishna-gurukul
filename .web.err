@@ -1,0 +1,43 @@
+11:12:33 am [vite] http proxy error: /api/auth/refresh
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+11:12:55 am [vite] http proxy error: /api/public/cms
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+11:12:55 am [vite] http proxy error: /api/public/courses
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+11:12:56 am [vite] http proxy error: /api/public/cms
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+11:12:56 am [vite] http proxy error: /api/public/courses
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+11:13:00 am [vite] http proxy error: /api/public/courses
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+11:13:01 am [vite] http proxy error: /api/public/courses
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+11:13:10 am [vite] http proxy error: /api/public/cms
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+11:13:11 am [vite] http proxy error: /api/public/cms
+AggregateError [ECONNREFUSED]: 
+    at internalConnectMultiple (node:net:1194:18)
+    at afterConnectMultiple (node:net:1784:7)
+npm error Lifecycle script `dev` failed with error:
+npm error code 1
+npm error path D:\krishna gurukul\frontend
+npm error workspace @kg/frontend@1.0.0
+npm error location D:\krishna gurukul\frontend
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c vite --port 5173
