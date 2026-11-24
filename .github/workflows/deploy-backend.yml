@@ -52,6 +52,11 @@ jobs:
         working-directory: ${{ env.CATALYST_DIR }}
         run: |
           f=$(find . -name app-config.json -not -path "*/node_modules/*" | head -n 1)
+          if [ -z "$f" ]; then
+            echo "::error::No app-config.json found. Commit the Catalyst project files (catalyst.json, .catalystrc and the AppSail folder with app-config.json) to this repo, or set CATALYST_DIR to the folder that holds them."
+            find . -maxdepth 3 -not -path "./node_modules/*" -not -path "./.git/*" | head -50
+            exit 1
+          fi
           echo "app-config: $f"
           sed -i -E "s#docker://[^\"]+#docker://${IMAGE}:${GITHUB_SHA}#" "$f"
           cat "$f"
