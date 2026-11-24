@@ -10,6 +10,8 @@ RUN npm ci -w backend --include-workspace-root=false
 COPY shared shared
 COPY backend backend
 ENV NODE_ENV=production
+# Catalyst AppSail normally injects this; 9000 is its default if it does not
+ENV X_ZOHO_CATALYST_LISTEN_PORT=9000
 EXPOSE 9000
 WORKDIR /app/backend
 CMD ["npx", "tsx", "src/server.ts"]
