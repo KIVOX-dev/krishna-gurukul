@@ -45,29 +45,39 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Install Catalyst CLI
-        run: npm install -g zcatalyst-cli
-
-      - name: Point AppSail at this build
+      - name: Look for Catalyst project files
+        id: cat
         working-directory: ${{ env.CATALYST_DIR }}
         run: |
           f=$(find . -name app-config.json -not -path "*/node_modules/*" | head -n 1)
           if [ -z "$f" ]; then
-            echo "::error::No app-config.json found. Commit the Catalyst project files (catalyst.json, .catalystrc and the AppSail folder with app-config.json) to this repo, or set CATALYST_DIR to the folder that holds them."
-            find . -maxdepth 3 -not -path "./node_modules/*" -not -path "./.git/*" | head -50
-            exit 1
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::No app-config.json in the repo, so the Catalyst deploy is skipped. The Docker image WAS built and pushed. Commit the Catalyst files (see README) to enable auto deploy."
+          else
+            echo "found=true" >> "$GITHUB_OUTPUT"; echo "file=$f" >> "$GITHUB_OUTPUT"
           fi
-          echo "app-config: $f"
+
+      - name: Install Catalyst CLI
+        if: steps.cat.outputs.found == 'true'
+        run: npm install -g zcatalyst-cli
+
+      - name: Point AppSail at this build
+        if: steps.cat.outputs.found == 'true'
+        working-directory: ${{ env.CATALYST_DIR }}
+        run: |
+          f="${{ steps.cat.outputs.file }}"
           sed -i -E "s#docker://[^\"]+#docker://${IMAGE}:${GITHUB_SHA}#" "$f"
           cat "$f"
 
       - name: Deploy to Catalyst
+        if: steps.cat.outputs.found == 'true'
         working-directory: ${{ env.CATALYST_DIR }}
         env:
           CATALYST_TOKEN: ${{ secrets.CATALYST_TOKEN }}
         run: catalyst deploy --only appsail --token "$CATALYST_TOKEN"
 
       - name: Health check
+        if: steps.cat.outputs.found == 'true'
         run: |
           for i in 1 2 3 4 5 6; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "${{ secrets.API_HEALTH_URL }}" || true)
