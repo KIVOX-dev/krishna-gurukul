@@ -1,0 +1,10 @@
+node_modules
+**/node_modules
+frontend/dist
+frontend/android
+backend/.data
+backend/uploads
+backend/.env
+**/.env
+email-previews
+.git
